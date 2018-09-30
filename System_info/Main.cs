@@ -6,11 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Net;
+using System.Diagnostics;
 
 namespace System_info
 {
     public partial class Main : Form
     {
+        private PerformanceCounter ramCounter;
+
         public Main()
         {
             InitializeComponent();
@@ -59,6 +63,25 @@ namespace System_info
 
             int numberProcess = Environment.ProcessorCount;
             textBox3.Text = numberProcess.ToString();
+
+            String version = Environment.OSVersion.ToString();
+            textBox4.Text = version;
+
+            string flatform = Environment.OSVersion.Platform.ToString();
+            textBox5.Text = flatform;
+
+            ramCounter = new PerformanceCounter("Memory", "Available MBytes", true);
+            textBox7.Text = ramCounter.NextValue().ToString() + " Mb";
+
+            IPHostEntry host;
+            string localIP = "?";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList) {
+                if (ip.AddressFamily.ToString() == "InterNetwork") {
+                    localIP = ip.ToString();
+                    textBox6.Text = localIP;
+                }
+            }
         }
     }
 }
