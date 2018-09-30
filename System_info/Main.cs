@@ -56,6 +56,9 @@ namespace System_info
 
             String userName = Environment.UserName;
             textBox2.Text = userName;
+
+            int numberProcess = Environment.ProcessorCount;
+            textBox3.Text = numberProcess.ToString();
         }
     }
 }
